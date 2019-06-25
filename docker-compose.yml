@@ -1,0 +1,29 @@
+version: '3'
+services: 
+  
+  server: 
+    container_name: 'api_login_test'
+    build: .
+    volumes:
+      - ./:/login-app/
+      - ./node_modules:/login-app/node_modules
+    depends_on:
+      - login_db
+    links:
+      - login_db
+    ports:
+      - '9000:9000'
+
+  login_db: 
+    container_name: mongo
+    image: "mongo"
+    ports: 
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/login_data
+    environment:
+      - MONGODB_ROOT_PASSWORD=password123
+
+  
+volumes:
+  node_modules: 
